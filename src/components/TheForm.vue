@@ -267,8 +267,8 @@
           ></textarea>
         </div>
       </div>
-      <div class="form-block mt-10 grid grid-cols-5 gap-5">
-        <div class="date-picker-wrap" >
+      <div class="form-block mt-10 grid grid-cols-9 gap-4">
+        <div class="date-picker-wrap col-span-2" >
           <label class="block font-semibold" for="date-start">Дата начала</label>
           <div class="relative">
             <div class="absolute top-1/2 transform -translate-y-1/2 right-0 pr-3 flex items-center pointer-events-none">
@@ -288,7 +288,9 @@
                 rounded">
           </div>
         </div>
-        <div class="date-picker-wrap" >
+        <the-time-picker class="col-span-2" :time-picker-name="'Время начала'" ></the-time-picker>
+        <div class="h-14 line col-span-1 self-end"></div>
+        <div class="date-picker-wrap col-span-2" >
           <label class="block font-semibold" for="date-start">Дата окончания</label>
           <div class="relative">
             <div class="absolute top-1/2 transform -translate-y-1/2 right-0 pr-3 flex items-center pointer-events-none">
@@ -308,7 +310,7 @@
                   rounded">
           </div>
         </div>
-
+        <the-time-picker class="col-span-2" :time-picker-name="'Время окончания'" ></the-time-picker>
       </div>
     </div>
     <button>Submit</button>
@@ -321,8 +323,10 @@ import { useForm, useField } from "vee-validate";
 import * as yup from "yup";
 // import DateRangePicker from "@themesberg/tailwind-datepicker/js/DateRangePicker";
 import Datepicker from '@themesberg/tailwind-datepicker/js/Datepicker';
+import TheTimePicker from "./TheTimePicker";
 export default {
   name: "TheForm",
+  components: {TheTimePicker},
   setup() {
     // Define a validation schema
     const dateStartPicker = ref(null);
@@ -435,4 +439,19 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+  .line {
+    text-align: center;
+    margin: 0 1rem;
+    position: relative;
+  }
+  .line:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    border-top: 2px solid #CDB1FB;
+    width: 100%;
+    transform: translateY(-50%);
+  }
+</style>
