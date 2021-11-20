@@ -18,7 +18,7 @@
                     </svg>
 
                 </div>
-                <select id="time-picker"
+                <select @change="getFullTime($event)" id="time-picker"
                         name="hours"
                         class="text-sm pr-0 text-right bg-none appearance-none outline-none border-none focus:outline-none focus:ring-transparent cursor-pointer focus:border-transparent"
                 >
@@ -48,7 +48,7 @@
                     <option value="23">23</option>
                 </select>
                 <span class="text-sm">.</span>
-                <select
+                <select @change="getFullTime($event)"
                         name="minutes"
                         class="text-sm p-0 text-left appearance-none outline-none mr-4 border-none bg-none border-none focus:outline-none focus:ring-transparent cursor-pointer focus:border-transparent"
                 >
@@ -118,9 +118,26 @@
 </template>
 
 <script>
+    import {ref} from 'vue'
     export default {
         name: "TheTimePicker",
-        props:["timePickerName"]
+        props:["timePickerName", "modelValue"],
+        emit: ["update:modelValue"],
+        // inject:[ 'disabled', 'hourValue', 'minutesValue']
+        setup(props, { emit }) {
+            const hours = ref('0')
+            const minutes = ref('00')
+            function getFullTime(e) {
+                    hours.value = e.target.name === "hours" ? e.target.value : hours.value
+                    minutes.value = e.target.name === "minutes" ? e.target.value : minutes.value
+                    emit('update:modelValue', `${hours.value}.${minutes.value}`)
+            }
+            return {
+                getFullTime,
+                minutes,
+                hours
+            }
+        }
     }
 </script>
 
