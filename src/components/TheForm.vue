@@ -169,7 +169,7 @@
 // import { ref } from "vue";
 import { useForm, useField } from "vee-validate";
 import * as yup from "yup";
-import TheDatePicker from "./TheDatePicker";
+import TheDatePicker from "./date-picker/TheDatePicker";
 import TheFileUploader from "./TheFileUploader";
 // import DateRangePicker from "@themesberg/tailwind-datepicker/js/DateRangePicker";
 
