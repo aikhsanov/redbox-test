@@ -25,10 +25,17 @@ module.exports = {
         selago: "#FAF7FE",
         revolver: "#211536",
       },
+      width: {
+        "51/100": "51%",
+        "12/25": "48.5%",
+      },
     },
   },
   variants: {
     extend: {},
   },
-  plugins: [require("@tailwindcss/forms"), require('@themesberg/flowbite/plugin')],
+  plugins: [
+    require("@tailwindcss/forms"),
+    require("@themesberg/flowbite/plugin"),
+  ],
 };

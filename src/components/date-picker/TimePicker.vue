@@ -1,68 +1,98 @@
 <template>
-    <div class="">
-        <label class="block font-semibold" :for="timePickerId">{{timePickerName}}</label>
-        <div class="relative">
-            <div class="absolute top-1/2 transform -translate-y-1/3 right-0 pr-3 flex items-center pointer-events-none z-50">
-                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M14.498 4.64814C14.1624 4.81049 14.022 5.21431 14.1844 5.54973C14.6279 6.46599 14.8527 7.45363 14.8527 8.48626C14.8527 12.2088 11.8241 15.2375 8.10149 15.2375C4.37891 15.2375 1.35025 12.2088 1.35025 8.48626C1.35025 4.76368 4.37891 1.73501 8.10149 1.73501C9.64409 1.73501 11.0932 2.23872 12.2927 3.19158C12.5836 3.42381 13.009 3.37519 13.2412 3.08329C13.4735 2.79154 13.4249 2.36662 13.1328 2.13472C11.7128 1.00616 9.92594 0.384766 8.10149 0.384766C3.63456 0.384766 0 4.01933 0 8.48626C0 12.9532 3.63456 16.5878 8.10149 16.5878C12.5684 16.5878 16.203 12.9532 16.203 8.48626C16.203 7.24842 15.9327 6.06217 15.3996 4.9618C15.2376 4.62556 14.8325 4.48545 14.498 4.64814Z" fill="#9B63F8"/>
-                    <path d="M8.10139 3.08521C7.72872 3.08521 7.42627 3.38766 7.42627 3.76033V8.4862C7.42627 8.85887 7.72872 9.16132 8.10139 9.16132H11.477C11.8497 9.16132 12.1521 8.85887 12.1521 8.4862C12.1521 8.11353 11.8497 7.81108 11.477 7.81108H8.77652V3.76033C8.77652 3.38766 8.47406 3.08521 8.10139 3.08521Z" fill="#9B63F8"/>
-                </svg>
-            </div>
-            <vue-timepicker v-model="pickedTime" @update="updatePickedTime" hide-clear-button input-width="100%" :id="timePickerId" input-class="styled" format="h.mm" hour-label="H" minute-label="MM">    </vue-timepicker>
-        </div>
-
+  <div class="">
+    <label class="block font-semibold" :for="timePickerId">{{
+      timePickerName
+    }}</label>
+    <div class="relative">
+      <div
+        class="
+          absolute
+          top-1/2
+          transform
+          -translate-y-1/3
+          right-0
+          pr-3
+          flex
+          items-center
+          pointer-events-none
+          z-50
+        "
+      >
+        <svg
+          width="17"
+          height="17"
+          viewBox="0 0 17 17"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14.498 4.64814C14.1624 4.81049 14.022 5.21431 14.1844 5.54973C14.6279 6.46599 14.8527 7.45363 14.8527 8.48626C14.8527 12.2088 11.8241 15.2375 8.10149 15.2375C4.37891 15.2375 1.35025 12.2088 1.35025 8.48626C1.35025 4.76368 4.37891 1.73501 8.10149 1.73501C9.64409 1.73501 11.0932 2.23872 12.2927 3.19158C12.5836 3.42381 13.009 3.37519 13.2412 3.08329C13.4735 2.79154 13.4249 2.36662 13.1328 2.13472C11.7128 1.00616 9.92594 0.384766 8.10149 0.384766C3.63456 0.384766 0 4.01933 0 8.48626C0 12.9532 3.63456 16.5878 8.10149 16.5878C12.5684 16.5878 16.203 12.9532 16.203 8.48626C16.203 7.24842 15.9327 6.06217 15.3996 4.9618C15.2376 4.62556 14.8325 4.48545 14.498 4.64814Z"
+            fill="#9B63F8"
+          />
+          <path
+            d="M8.10139 3.08521C7.72872 3.08521 7.42627 3.38766 7.42627 3.76033V8.4862C7.42627 8.85887 7.72872 9.16132 8.10139 9.16132H11.477C11.8497 9.16132 12.1521 8.85887 12.1521 8.4862C12.1521 8.11353 11.8497 7.81108 11.477 7.81108H8.77652V3.76033C8.77652 3.38766 8.47406 3.08521 8.10139 3.08521Z"
+            fill="#9B63F8"
+          />
+        </svg>
+      </div>
+      <vue-timepicker
+        :model-value="modelValue"
+        @update:modelValue="updatePickedTime"
+        hide-clear-button
+        input-width="100%"
+        :id="timePickerId"
+        input-class="styled"
+        format="h.mm"
+        hour-label="H"
+        minute-label="MM"
+      >
+      </vue-timepicker>
     </div>
-
-
-
+  </div>
 </template>
 
 <script>
-    import VueTimepicker from 'vue3-timepicker/src/VueTimepicker.vue'
-    import {ref} from 'vue'
-    export default {
-        name: "TheTimePicker",
-        props:["timePickerName", 'timePickerId', "modelValue"],
-        emit: ["update:modelValue"],
-        components: {VueTimepicker},
-        // inject:[ 'disabled', 'hourValue', 'minutesValue']
-        setup(props, {emit}) {
-            const pickedTime = ref('');
-            function updatePickedTime() {
-                console.log('updated time')
-                emit('update:modelValue', pickedTime)
-            }
-            return {
-                pickedTime,
-                updatePickedTime
-            }
-        }
+import VueTimepicker from "vue3-timepicker/src/VueTimepicker.vue";
+// import { toRef } from "vue";
+export default {
+  name: "TheTimePicker",
+  props: ["timePickerName", "timePickerId", "modelValue"],
+  emit: ["update:modelValue"],
+  components: { VueTimepicker },
+  // inject:[ 'disabled', 'hourValue', 'minutesValue']
+  setup(props, { emit }) {
+    console.log(props);
+    // const pickedTime = toRef(props, "modelValue");
+    function updatePickedTime(time) {
+      console.log("updated time");
+      emit("update:modelValue", time);
     }
+    return {
+      updatePickedTime,
+      // pickedTime,
+    };
+  },
+};
 </script>
 
 <style>
+.vue__time-picker input.vue__time-picker-input.styled {
+  height: 3.5rem !important;
+  margin-top: 0.5rem !important;
+  display: block !important;
+  width: 100% !important;
+  border: 1px solid #cdb1fb !important;
+  border-radius: 0.25rem !important;
+  font-weight: 500 !important;
+  text-align: right;
+  padding-right: 3rem;
+}
 
-    .vue__time-picker input.vue__time-picker-input.styled {
-        height: 3.5rem !important;
-        margin-top: 0.5rem !important;
-        display: block !important;
-        width: 100% !important;
-        border: 1px solid #CDB1FB !important;
-        border-radius: 0.25rem !important;
-        font-weight: 500 !important;
-        text-align: right;
-        padding-right: 3rem;
-
-    }
-
-    .vue__time-picker input.vue__time-picker-input.styled:focus {
-        --tw-ring-color: #9B63F8 !important;
-        border: 1px solid #9B63F8 !important;
-    }
-    .vue__time-picker .dropdown {
-
-        top: calc(4rem + 2px);
-    }
-
-
+.vue__time-picker input.vue__time-picker-input.styled:focus {
+  --tw-ring-color: #9b63f8 !important;
+  border: 1px solid #9b63f8 !important;
+}
+.vue__time-picker .dropdown {
+  top: calc(4rem + 2px);
+}
 </style>

@@ -134,7 +134,7 @@
           </div>
         </div>
       </div>
-      <the-file-uploader></the-file-uploader>
+      <the-file-uploader v-model="mainPhoto"></the-file-uploader>
       <div class="form-block mt-10">
         <div class="mt-6">
           <label for="event-name" class="block font-semibold"
@@ -159,25 +159,109 @@
           ></textarea>
         </div>
       </div>
-      <the-date-picker></the-date-picker>
+      <the-date-picker v-model="eventDates"></the-date-picker>
+      <div class="form-block">
+        <div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="mt-6 col-span-1">
+              <label for="event-rating" class="block font-semibold"
+                >Рейтинг мероприятия</label
+              >
+              <select
+                @click.once="fetchData"
+                v-model="eventRating"
+                name="eventRating"
+                id="event-rating"
+                class="
+                  appearance-none
+                  mt-2
+                  h-14
+                  focus:ring-heliotrope focus:border-heliotrope
+                  block
+                  w-full
+                  shadow-sm
+                  sm:text-sm
+                  border-perfume
+                  rounded
+                "
+              >
+                <option
+                  class="appearance-none py-4 px-10 my-4"
+                  v-for="option in ratingOptions"
+                  :key="option.id"
+                  :value="option.title"
+                >
+                  {{ option.title }}
+                </option>
+              </select>
+            </div>
+            <div class="mt-6 col-span-1">
+              <label for="event-address" class="block font-semibold"
+                >Адрес мероприятия</label
+              >
+              <input
+                v-model="eventAddress"
+                type="text"
+                name="eventAddress"
+                id="event-address"
+                class="
+                  mt-2
+                  h-14
+                  focus:ring-heliotrope focus:border-heliotrope
+                  block
+                  w-full
+                  shadow-sm
+                  sm:text-sm
+                  border-perfume
+                  rounded
+                "
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <button>Submit</button>
+    <div class="flex justify-between items-center w-51/100">
+      <base-button
+        @click="formReset"
+        class="w-12/25"
+        button-text="Отменить"
+      ></base-button>
+      <base-button
+        class="w-12/25 bg-heliotrope text-white"
+        button-text="Далее"
+      ></base-button>
+    </div>
   </form>
 </template>
 
 <script>
 // import { ref } from "vue";
 import { useForm, useField } from "vee-validate";
+import { apiUrl } from "../utils/api";
 import * as yup from "yup";
+import axios from "axios";
 import TheDatePicker from "./date-picker/TheDatePicker";
 import TheFileUploader from "./TheFileUploader";
+import { ref } from "vue";
+import BaseButton from "../UI/BaseButton";
+
 // import DateRangePicker from "@themesberg/tailwind-datepicker/js/DateRangePicker";
 
 export default {
   name: "TheForm",
-  components: {TheFileUploader, TheDatePicker},
+  components: { BaseButton, TheFileUploader, TheDatePicker },
   setup() {
     // Define a validation schema
+    const ratingOptions = ref([]);
+    async function fetchData() {
+      const response = await axios.get(`${apiUrl}`);
+      if (response.data.code !== 200 || !response.data.code) {
+        throw new Error("can't fetch data");
+      }
+      ratingOptions.value = response.data.result;
+    }
+    function formReset() {}
     const schema = yup.object({
       arranger: yup.string().required("Поле необходимо заполнить"),
       phoneNumber: yup
@@ -193,6 +277,8 @@ export default {
         .required("Поле необходимо заполнить")
         .min("Введен неверный Email"),
       eventName: yup.string().required("Поле необходимо заполнить"),
+      eventRating: yup.string().required("Поле необходимо заполнить"),
+      eventAddress: yup.string().required("Поле необходимо заполнить"),
     });
     // Create a form context with the validation schema
     useForm({
@@ -207,6 +293,16 @@ export default {
     const { value: city, errorMessage: cityError } = useField("city");
     const { value: eventName, errorMessage: eventNameError } =
       useField("eventName");
+    const { value: mainPhoto, errorMessage: mainPhotoError } =
+      useField("mainPhoto");
+    const { value: description, errorMessage: descriptionError } =
+      useField("description");
+    const { value: eventDates, errorMessage: eventDatesError } =
+      useField("eventDates");
+    const { value: eventRating, errorMessage: eventRatingError } =
+      useField("eventRating");
+    const { value: eventAddress, errorMessage: eventAddressError } =
+      useField("eventAddress");
 
     const submitForm = (values) => {
       // display form values on success
@@ -214,7 +310,6 @@ export default {
     };
 
     return {
-
       arranger,
       arrangerError,
       email,
@@ -225,13 +320,23 @@ export default {
       cityError,
       eventName,
       eventNameError,
+      mainPhoto,
+      mainPhotoError,
+      description,
+      descriptionError,
+      eventDates,
+      eventDatesError,
+      eventRating,
+      eventRatingError,
+      eventAddress,
+      eventAddressError,
+      ratingOptions,
+      fetchData,
+      formReset,
       submitForm,
-
     };
   },
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

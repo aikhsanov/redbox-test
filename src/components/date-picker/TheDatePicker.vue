@@ -1,83 +1,70 @@
 <template>
-    <dates-list v-for="date in dates" :date="date" :key="date"></dates-list>
-
-    <a @click.prevent="addDate()" href="#">Добавить дату</a>
+  <div
+    v-for="(date, i) in dates"
+    :key="date.index"
+    class="px-8 py-8 mt-5 mb-5 bg-selago relative"
+  >
+    <dates-form v-model="dates[i]" class=""></dates-form>
+    <remove-button
+      :data-index="date.index"
+      @click="removeDate($event)"
+    ></remove-button>
+  </div>
+  <div class="mt-10">
+    <dates-form v-model="dateObj"></dates-form>
+    <base-button
+      @click.prevent="addDate()"
+      type="button"
+      button-text="+ Добавить дату"
+    ></base-button>
+  </div>
 </template>
 
 <script>
-    import { ref} from "vue";
-    import TimePicker from "./TimePicker";
-    import DateInput from "./DateInput";
-    // import DatesList from "./DatesList";
-    export default {
-        name: "TheDatePicker",
-        components: {DateInput,TimePicker},
-        // inject:['disabled', 'dateStartValue', 'dateEndValue'],
-        setup() {
-            const dateStartPicker = ref(null);
-            const dateEndPicker = ref(null);
-            const timeStart = ref('');
-            const timeEnd = ref('');
-            // eslint-disable-next-line no-unused-vars
-            const dates = ref([
-                {
-                    date: false,
-                },
-                {
-                    date: false,
-                },
-                {
-                    date: false,
-                },
-            ]);
-            function addDate() {
-                const dateItem = dates.value.find(el => !el.date)
-                if(!dateItem) {
-                    console.log('нет свободных слотов для дат');
-                    return
-                }
-                dateItem.date = {
-                    dateStart:dateStartPicker.value,
-                    dateEnd: dateEndPicker.value,
-                    timeStart: timeStart.value,
-                    timeEnd: timeEnd.value,
-                };
-            }
-            //На случай, если найду как инициализировать datePicker с вынесенным инпутом
-            // function createDatePicker(e) {
-            //     if(dateStartPicker.value) {
-            //         return;
-            //     }
-            //     dateStartPicker.value = e.target
-            //     const datepickerStartEl = dateStartPicker.value;
-            //     new Datepicker(datepickerStartEl, {
-            //         format: 'dd.mm.yyyy',
-            //     });
-            // }
-            return {
-                dateStartPicker,
-                dateEndPicker,
-                addDate,
-                dates,
-                timeStart, timeEnd
-            }
-        }
+import { ref } from "vue";
+import DatesForm from "./DateForm";
+import RemoveButton from "../../UI/RemoveButton";
+import BaseButton from "../../UI/BaseButton";
+
+export default {
+  name: "TheDatePicker",
+  props: ["modelValue"],
+  components: { BaseButton, RemoveButton, DatesForm },
+  setup(props, { emit }) {
+    const dateObj = ref({
+      dateStartPicker: null,
+      dateEndPicker: null,
+      timeStart: "",
+      timeEnd: "",
+    });
+    const dates = ref([]);
+    function addDate() {
+      if (dates.value.length >= 3) {
+        console.log("нет свободных слотов для дат");
+        return;
+      }
+      const dateToPush = { ...dateObj.value };
+      dateToPush.index = new Date().valueOf();
+      dates.value.push(dateToPush);
+      Object.keys(dateObj.value).forEach((key) => {
+        dateObj.value[key] = null;
+      });
+      emit("update:modelValue", dates);
     }
+    function removeDate(e) {
+      dates.value = dates.value.filter(
+        (date) => date.index !== parseInt(e.target.dataset.index)
+      );
+      emit("update:modelValue", dates);
+    }
+    return {
+      addDate,
+      dates,
+      dateObj,
+      removeDate,
+    };
+  },
+};
 </script>
 
-<style scoped>
-    .line {
-        text-align: center;
-        margin: 0 1rem;
-        position: relative;
-    }
-    .line:before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 0;
-        border-top: 2px solid #CDB1FB;
-        width: 100%;
-        transform: translateY(-50%);
-    }
-</style>
+<style scoped></style>

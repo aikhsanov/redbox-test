@@ -16,14 +16,13 @@
                 shadow-sm
                 sm:text-sm
                 border-perfume
-                rounded" v-model="pickedDate" :id="inputId" :inputFormat="'dd.MM.yyyy'" />
+                rounded" :model-value="modelValue" @update:modelValue="updateValue" :id="inputId" :inputFormat="'dd.MM.yyyy'" />
         </div>
     </div>
 
 </template>
 
 <script>
-    import {ref, watch} from 'vue'
     import Datepicker from 'vue3-datepicker'
     export default {
         name: "DateInput",
@@ -31,17 +30,12 @@
         emits:['update:modelValue'],
         components: {Datepicker},
         setup(props, {emit}) {
-            const pickedDate = ref(null);
             function updateValue(date) {
                 console.log('updated')
                 emit('update:modelValue', date)
             }
-            watch(pickedDate, (pickedDateNew) => {
-                updateValue(pickedDateNew)
-            })
             return {
                 updateValue,
-                pickedDate
             }
         }
     }
