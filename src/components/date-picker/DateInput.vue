@@ -13,7 +13,7 @@
           flex
           items-center
           pointer-events-none
-          z-50
+          z-10
         "
       >
         <svg
@@ -74,4 +74,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style>
+.v3dp__popout[data-v-2e128338] {
+  z-index: 15 !important;
+}
+</style>

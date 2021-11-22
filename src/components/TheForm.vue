@@ -206,7 +206,7 @@
                 "
               >
                 <option
-                  class="appearance-none py-4 px-10 my-4"
+                  class="py-4 px-5 my-4"
                   v-for="option in ratingOptions"
                   :key="option.id"
                   :value="option.title"

@@ -15,7 +15,7 @@
           flex
           items-center
           pointer-events-none
-          z-50
+          z-10
         "
       >
         <svg
@@ -95,5 +95,12 @@ export default {
 }
 .vue__time-picker .dropdown {
   top: calc(4rem + 2px);
+  z-index: 15 !important;
+}
+
+@media (max-width: 640px) {
+  .v3dp__popout[data-v-2e128338] {
+    width: 100% !important;
+  }
 }
 </style>
