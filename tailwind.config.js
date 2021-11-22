@@ -25,10 +25,14 @@ module.exports = {
         selago: "#FAF7FE",
         revolver: "#211536",
         scarletgum: "#351767",
+        amethyst: "#8E69CC",
       },
       width: {
         "51/100": "51%",
         "12/25": "48.5%",
+      },
+      height: {
+        112: "28rem",
       },
     },
   },

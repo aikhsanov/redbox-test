@@ -27,9 +27,7 @@ export default {
 
 <style scoped>
 .card-wrap {
-  --tw-shadow: 0 20px 25px -5px rgba(155, 99, 248, 0.1),
-    0 10px 10px -5px rgba(155, 99, 248, 0.04);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #9b63f8),
-    var(--tw-ring-shadow, 0 0 #9b63f8), var(--tw-shadow);
+  box-shadow: 0px 8px 25px rgba(155, 99, 248, 0.15);
+  border-radius: 4px;
 }
 </style>
