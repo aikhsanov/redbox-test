@@ -38,11 +38,9 @@
         </div>
       </div>
       <div class="form-block mt-10">
-        <div class="grid grid-cols-6 gap-6">
-          <h5 class="font-semibold text-lg text-left col-span-6">
-            Контактные данные
-          </h5>
-          <div class="col-span-2">
+        <h5 class="font-semibold text-lg text-left">Контактные данные</h5>
+        <div class="grid md:grid-cols-6 sm:grid-cols-1 gap-6">
+          <div class="md:col-span-2 md:col-span-1">
             <label for="phoneNumber" class="block font-semibold">Телефон</label>
             <Field
               v-maska="'+7 (###) ###-##-##'"
@@ -67,7 +65,7 @@
             />
             <span class="invalid-feedback">{{ errors.phoneNumber }}</span>
           </div>
-          <div class="col-span-2">
+          <div class="md:col-span-2 sm:col-span-1">
             <label for="email" class="block font-semibold">E-mail</label>
             <Field
               type="email"
@@ -91,7 +89,7 @@
             />
             <span class="invalid-feedback">{{ errors.email }}</span>
           </div>
-          <div class="col-span-2">
+          <div class="md:col-span-2 sm:col-span-1">
             <label for="city" class="block font-semibold"
               >Город организатора</label
             >
@@ -182,7 +180,7 @@
       <!--        <span class="invalid-feedback">{{ errors.eventDates }}</span>-->
       <div class="form-block">
         <div>
-          <div class="grid grid-cols-2 gap-4">
+          <div class="grid sm:grid-cols-2 grid-cols-1 gap-4">
             <div class="mt-6 col-span-1">
               <label for="event-rating" class="block font-semibold"
                 >Рейтинг мероприятия</label
@@ -246,7 +244,7 @@
         </div>
       </div>
     </div>
-    <div class="flex justify-between items-center w-51/100">
+    <div class="flex justify-between items-center md:w-51/100 sm:w-full">
       <base-button
         @click="handleReset(), formReset()"
         class="w-12/25"

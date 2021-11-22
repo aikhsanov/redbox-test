@@ -1,5 +1,5 @@
 <template>
-  <div class="card-wrap -mr-10 py-4 px-4 flex items-center">
+  <div class="card-wrap sm:-mr-10 mr-0 py-4 px-4 flex items-center">
     <div class="icon mr-5">
       <svg
         width="45"

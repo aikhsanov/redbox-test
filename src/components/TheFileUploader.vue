@@ -1,7 +1,21 @@
 <template>
   <div class="form-block mt-10">
     <h5 class="font-semibold text-lg text-left">Фотография</h5>
-    <div class="grid grid-cols-7 gap-7 px-4 mt-2">
+    <div
+      class="
+        grid
+        xl:grid-cols-7
+        lg:grid-cols-5
+        md:grid-cols-4
+        sm:grid-cols-3
+        grid-cols-2
+        sm:gap-4
+        gap-2
+        sm:px-4
+        px-0
+        mt-2
+      "
+    >
       <div class="file-upload-wrap">
         <div
           class="
@@ -67,7 +81,7 @@
             />
           </label>
         </div>
-        <span class="text-xxs font-normal -ml-4 inline-block"
+        <span class="text-xxs font-normal sm:-ml-4 inline-block"
           >Главная фотография <br />
           (обложка мероприятия)</span
         >
@@ -79,7 +93,7 @@
             <img :src="img.image" class="w-full h-full object-cover rounded" />
             <remove-button @click="removeImage"></remove-button>
           </div>
-          <span class="text-xxs font-normal -ml-4 inline-block"
+          <span class="text-xxs font-normal sm:-ml-4 inline-block"
             >Главная фотография <br />
             (обложка мероприятия)</span
           >

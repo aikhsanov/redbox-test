@@ -11,18 +11,29 @@
     </h3>
   </div>
   <div class="" v-else>
-    <base-alert class="text-lg font-semibold">
+    <base-alert class="xl:text-lg lg:text-base text-sm text-left font-semibold">
       Проверьте ваше мероприятие на наличие ошибок, если все в порядке -
       отправляйте на модерацию.
     </base-alert>
-    <div class="main-hero flex justify-between items-start mt-16">
-      <div class="hero-data flex justify-between w-5/12 flex-wrap flex-row">
+    <div
+      class="
+        main-hero
+        flex
+        justify-between
+        items-start
+        mt-16
+        lg:flex-nowrap
+        flex-wrap
+      "
+    >
+      <div class="hero-data flex justify-between lg:w-5/12 w-full">
         <div
           class="
             rating
-            mt-2
-            h-12
-            w-12
+            sm:mt-2 sm:h-12 sm:w-12
+            mt-1
+            h-10
+            w-10
             bg-scarletgum
             text-white text-lg
             flex
@@ -35,8 +46,11 @@
         <div class="info w-10/12 h-auto text-left">
           <h3
             class="
-              max-h-28
-              text-scarletgum text-3xl
+              sm:max-h-28
+              max-h-20
+              text-scarletgum
+              sm:text-3xl
+              text-xl
               font-extrabold
               overflow-ellipsis overflow-hidden
             "
@@ -142,7 +156,21 @@
           </div>
         </div>
       </div>
-      <div class="hero-image ml-10 w-1/2 h-112">
+
+      <div
+        class="
+          line
+          mt-6
+          lg:hidden
+          md:block
+          h-1
+          border-2 border-purple-300
+          w-full
+        "
+      ></div>
+      <div
+        class="hero-image lg:ml-10 lg:mt-0 ml-0 mt-10 lg:w-7/12 w-full h-112"
+      >
         <img
           v-if="createdImg"
           class="w-full h-full object-cover"
@@ -165,18 +193,43 @@
         </div>
       </div>
     </div>
+    <div
+      class="
+        line
+        mt-11
+        lg:hidden
+        md:block
+        h-1
+        border-2 border-purple-300
+        w-full
+      "
+    ></div>
     <div class="description text-left mt-10">
       {{ eventData.description }}
     </div>
-    <div class="flex justify-between items-center w-51/100">
+    <div
+      class="
+        line
+        mt-11
+        mb-5
+        lg:hidden
+        md:block
+        h-1
+        border-2 border-purple-300
+        w-full
+      "
+    ></div>
+    <div
+      class="flex justify-between items-center xl:w-51/100 lg:w-8/12 flex-wrap"
+    >
       <base-button
         @click="goBack"
-        class="w-12/25"
+        class="md:w-12/25 w-full"
         button-text="Назад"
       ></base-button>
       <base-button
         @click="sendForModeration"
-        class="w-12/25 bg-heliotrope text-white"
+        class="md:w-12/25 w-full bg-heliotrope text-white"
         button-text="Отправить на модерацию"
       ></base-button>
     </div>
