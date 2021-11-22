@@ -77,7 +77,7 @@
         <div v-if="img.image" class="relative col-span-1">
           <div class="uploaded-img-wrap h-36 mb-2">
             <img :src="img.image" class="w-full h-full object-cover rounded" />
-            <remove-button @click="removeImage(img)"></remove-button>
+            <remove-button @click="removeImage"></remove-button>
           </div>
           <span class="text-xxs font-normal -ml-4 inline-block"
             >Главная фотография <br />
@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import { toRef } from "vue";
+import { ref, toRef, watch } from "vue";
 import RemoveButton from "../UI/RemoveButton";
 
 export default {
@@ -99,6 +99,7 @@ export default {
   components: { RemoveButton },
   setup(props, { emit }) {
     const images = toRef(props, "modelValue");
+    const newImages = ref([]);
     function onFileChange(e) {
       const files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
@@ -113,20 +114,27 @@ export default {
 
       reader.onload = (e) => {
         item.image = e.target.result;
-        images.value.push(item);
+        newImages.value.push(item);
       };
       reader.readAsDataURL(file);
-      emit("update:modelValue", images);
+      emit("update:modelValue", newImages.value);
     }
     function removeImage() {
-      images.value = [];
-      emit("update:modelValue", images);
+      newImages.value = [];
+      emit("update:modelValue", newImages.value);
     }
+
+    watch(images, (imagesNewVal, imagesPrevVal) => {
+      if (imagesPrevVal.length > 0 && imagesNewVal.length === 0) {
+        newImages.value = [];
+      }
+    });
     return {
       images,
       onFileChange,
       createImage,
       removeImage,
+      newImages,
     };
   },
 };

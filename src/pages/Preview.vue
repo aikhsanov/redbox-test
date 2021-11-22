@@ -130,9 +130,9 @@
     </div>
     <div class="hero-image ml-10 w-1/2 h-112">
       <img
-        v-if="eventData.mainPhoto[0]?.image"
+        v-if="createdImg"
         class="w-full h-full object-cover"
-        :src="eventData.mainPhoto[0].image"
+        :src="createdImg"
         alt=""
       />
       <div
@@ -152,14 +152,11 @@
     </div>
   </div>
   <div class="description text-left mt-10">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam debitis
-    deleniti deserunt dolore eius eligendi eos, et hic non nostrum odio quaerat
-    quia reprehenderit vel voluptas. A amet debitis dolorem ea earum esse modi
-    perferendis quidem totam velit! Officia, officiis?
+    {{ eventData.description }}
   </div>
   <div class="flex justify-between items-center w-51/100">
     <base-button
-      @click="formReset"
+      @click="goBack"
       class="w-12/25"
       button-text="Назад"
     ></base-button>
@@ -171,7 +168,7 @@
 </template>
 
 <script>
-// import { computed } from "vue";
+import { computed } from "vue";
 import BaseAlert from "../UI/BaseAlert";
 import BaseButton from "../UI/BaseButton";
 import { getUserData } from "../data/state";
@@ -179,13 +176,24 @@ import BaseInfo from "../UI/BaseInfo";
 import { ru } from "date-fns/locale";
 import parseISO from "date-fns/parseISO";
 import { format } from "date-fns";
+import { useRouter } from "vue-router";
 
 export default {
   name: "Preview",
   components: { BaseInfo, BaseAlert, BaseButton },
   setup() {
-    const eventData = getUserData.value;
+    const eventData = computed(() => getUserData.value);
+    const createdImg = computed(() => {
+      if (!eventData.value.mainPhoto || !eventData.value.mainPhoto.length) {
+        return;
+      }
+      return eventData.value.mainPhoto[0].image;
+    });
+    const router = useRouter();
     function formatDate(startDate, endDate) {
+      if (!startDate || !endDate) {
+        return;
+      }
       console.log();
       startDate = format(parseISO(startDate), "dd MMM yyyy(EEEEEE)", {
         locale: ru,
@@ -196,15 +204,24 @@ export default {
       return `${startDate}, ${endDate}`;
     }
     function formatTime(startTime, endTime) {
+      if (!startTime || !endTime) {
+        return;
+      }
       startTime = startTime.split(".").join(":");
       endTime = endTime.split(".").join(":");
       return `${startTime}, ${endTime}`;
+    }
+
+    function goBack() {
+      router.go(-1);
     }
 
     return {
       eventData,
       formatDate,
       formatTime,
+      goBack,
+      createdImg,
     };
   },
 };

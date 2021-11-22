@@ -1,5 +1,9 @@
 <template>
-  <Form @submit="submitForm" :validation-schema="schema" v-slot="{ errors }">
+  <Form
+    @submit="submitForm"
+    :validation-schema="schema"
+    v-slot="{ handleReset, errors }"
+  >
     <div class="py-5 bg-white text-left">
       <div class="form-block">
         <div>
@@ -244,9 +248,10 @@
     </div>
     <div class="flex justify-between items-center w-51/100">
       <base-button
-        @click="formReset"
+        @click="handleReset(), formReset()"
         class="w-12/25"
         button-text="Отменить"
+        type="button"
       ></base-button>
       <base-button
         class="w-12/25 bg-heliotrope text-white"
@@ -257,7 +262,7 @@
 </template>
 
 <script>
-import { getUserData, setUserData } from "../data/state";
+import { setUserData } from "../data/state";
 import { Form, Field } from "vee-validate";
 import { apiUrl } from "../utils/api";
 import * as yup from "yup";
@@ -266,6 +271,7 @@ import TheDatePicker from "./date-picker/TheDatePicker";
 import TheFileUploader from "./TheFileUploader";
 import { ref } from "vue";
 import BaseButton from "../UI/BaseButton";
+import { useRouter } from "vue-router";
 
 // import DateRangePicker from "@themesberg/tailwind-datepicker/js/DateRangePicker";
 
@@ -273,7 +279,7 @@ export default {
   name: "TheForm",
   components: { BaseButton, TheFileUploader, TheDatePicker, Form, Field },
   setup() {
-    // Define a validation schema
+    const router = useRouter();
     const ratingOptions = ref([]);
     const eventDates = ref([]);
     const mainPhoto = ref([]);
@@ -285,7 +291,11 @@ export default {
       }
       ratingOptions.value = response.data.result;
     }
-    function formReset() {}
+
+    function formReset() {
+      eventDates.value = [];
+      mainPhoto.value = [];
+    }
     const schema = yup.object({
       arranger: yup.string().required("Поле необходимо заполнить"),
       phoneNumber: yup
@@ -304,18 +314,14 @@ export default {
     });
 
     const submitForm = (values) => {
-      // display form values on success
       setUserData({
         ...values,
         eventDates: { ...eventDates.value },
         mainPhoto: { ...mainPhoto.value },
       });
-      const userData = getUserData;
-      console.log(JSON.stringify(userData.value));
-      // alert("SUCCESS!! :-)\n\n" + JSON.stringify(values, null, 4));
+      router.push("/preview");
     };
-    // const { value: eventDates } = useField("eventDates");
-    // const { value: mainPhoto } = useField("mainPhoto");
+
     return {
       eventDates,
       mainPhoto,

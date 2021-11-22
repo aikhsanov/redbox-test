@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { ref, toRef } from "vue";
+import { ref, toRef, watch } from "vue";
 import DatesForm from "./DateForm";
 import RemoveButton from "../../UI/RemoveButton";
 import BaseButton from "../../UI/BaseButton";
@@ -38,6 +38,7 @@ export default {
       timeEnd: "",
     });
     const dates = toRef(props, "modelValue");
+    const newDates = ref([]);
     function addDate() {
       if (dates.value.length >= 3) {
         console.log("нет свободных слотов для дат");
@@ -45,23 +46,29 @@ export default {
       }
       const dateToPush = { ...dateObj.value };
       dateToPush.index = new Date().valueOf();
-      dates.value.push(dateToPush);
+      newDates.value.push(dateToPush);
       Object.keys(dateObj.value).forEach((key) => {
         dateObj.value[key] = null;
       });
-      emit("update:modelValue", dates);
+      emit("update:modelValue", newDates.value);
     }
     function removeDate(e) {
-      dates.value = dates.value.filter(
+      newDates.value = newDates.value.filter(
         (date) => date.index !== parseInt(e.target.dataset.index)
       );
-      emit("update:modelValue", dates);
+      emit("update:modelValue", newDates.value);
     }
+    watch(dates, (datesNewVal, datesPrevVal) => {
+      if (datesPrevVal.length > 0 && datesNewVal.length === 0) {
+        newDates.value = [];
+      }
+    });
     return {
       addDate,
       dates,
       dateObj,
       removeDate,
+      newDates,
     };
   },
 };
