@@ -42,8 +42,8 @@
         input-width="100%"
         :id="timePickerId"
         input-class="styled"
-        format="h.mm"
-        hour-label="H"
+        format="HH.mm"
+        hour-label="HH"
         minute-label="MM"
       >
       </vue-timepicker>
@@ -61,9 +61,10 @@ export default {
   components: { VueTimepicker },
   // inject:[ 'disabled', 'hourValue', 'minutesValue']
   setup(props, { emit }) {
-    console.log(props);
+    // console.log(props);
     // const pickedTime = toRef(props, "modelValue");
     function updatePickedTime(time) {
+      console.log(time);
       console.log("updated time");
       emit("update:modelValue", time);
     }

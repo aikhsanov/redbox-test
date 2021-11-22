@@ -34,8 +34,8 @@ export default {
     const dateObj = ref({
       dateStartPicker: null,
       dateEndPicker: null,
-      timeStart: "",
-      timeEnd: "",
+      timeStart: "0.00",
+      timeEnd: "0.00",
     });
     const dates = toRef(props, "modelValue");
     const newDates = ref([]);
@@ -47,9 +47,12 @@ export default {
       const dateToPush = { ...dateObj.value };
       dateToPush.index = new Date().valueOf();
       newDates.value.push(dateToPush);
-      Object.keys(dateObj.value).forEach((key) => {
-        dateObj.value[key] = null;
-      });
+      dateObj.value = {
+        dateStartPicker: null,
+        dateEndPicker: null,
+        timeStart: ".",
+        timeEnd: ".",
+      };
       emit("update:modelValue", newDates.value);
     }
     function removeDate(e) {
