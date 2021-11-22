@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, toRef } from "vue";
 import DatesForm from "./DateForm";
 import RemoveButton from "../../UI/RemoveButton";
 import BaseButton from "../../UI/BaseButton";
@@ -37,7 +37,7 @@ export default {
       timeStart: "",
       timeEnd: "",
     });
-    const dates = ref([]);
+    const dates = toRef(props, "modelValue");
     function addDate() {
       if (dates.value.length >= 3) {
         console.log("нет свободных слотов для дат");

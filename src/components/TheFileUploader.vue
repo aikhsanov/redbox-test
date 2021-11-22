@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { toRef } from "vue";
 import RemoveButton from "../UI/RemoveButton";
 
 export default {
@@ -98,7 +98,7 @@ export default {
   props: ["modelValue"],
   components: { RemoveButton },
   setup(props, { emit }) {
-    const images = ref([]);
+    const images = toRef(props, "modelValue");
     function onFileChange(e) {
       const files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;

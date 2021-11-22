@@ -24,6 +24,7 @@ module.exports = {
         perfume: "#CDB1FB",
         selago: "#FAF7FE",
         revolver: "#211536",
+        scarletgum: "#351767",
       },
       width: {
         "51/100": "51%",

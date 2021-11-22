@@ -1,17 +1,30 @@
 <template>
   <main>
-    <div class="container mx-auto px-4 sm:px-6">
+    <div v-if="!data" class="container mx-auto px-4 sm:px-6">
       <the-form> </the-form>
+    </div>
+    <div v-else class="container mx-auto px-4 sm:px-6">
+      <preview></preview>
     </div>
   </main>
 </template>
 
 <script>
+import { getUserData } from "./data/state";
+import { ref } from "vue";
 import TheForm from "./components/TheForm";
+import Preview from "./pages/Preview";
 export default {
   name: "App",
   components: {
+    Preview,
     TheForm,
+  },
+  setup() {
+    const data = ref(getUserData.value);
+    return {
+      data,
+    };
   },
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
-  <form @submit.prevent="submitForm">
+  <Form @submit="submitForm" :validation-schema="schema" v-slot="{ errors }">
     <div class="py-5 bg-white text-left">
-      <div class="form-block mt-0">
+      <div class="form-block">
         <div>
           <h5 class="font-semibold text-lg text-left">
             Информация об организаторе
@@ -10,13 +10,14 @@
             <label for="arranger" class="block font-semibold"
               >Организатор</label
             >
-            <input
-              v-model="arranger"
+            <Field
               type="text"
               name="arranger"
               id="arranger"
               autocomplete="arranger"
+              :class="{ 'is-invalid': errors.arranger }"
               class="
+                form-control
                 mt-2
                 h-14
                 focus:ring-heliotrope focus:border-heliotrope
@@ -28,7 +29,7 @@
                 rounded
               "
             />
-            <span>{{ arrangerError }}</span>
+            <span class="invalid-feedback">{{ errors.arranger }}</span>
           </div>
         </div>
       </div>
@@ -39,14 +40,15 @@
           </h5>
           <div class="col-span-2">
             <label for="phoneNumber" class="block font-semibold">Телефон</label>
-            <input
-              v-model="phoneNumber"
+            <Field
               v-maska="'+7 (###) ###-##-##'"
               type="tel"
               name="phoneNumber"
               id="phoneNumber"
               autocomplete="false"
+              :class="{ 'is-invalid': errors.phoneNumber }"
               class="
+                form-control
                 mt-2
                 h-14
                 focus:ring-heliotrope focus:border-heliotrope
@@ -59,20 +61,22 @@
                 rounded
               "
             />
-            <span>{{ phoneNumberError }}</span>
+            <span class="invalid-feedback">{{ errors.phoneNumber }}</span>
           </div>
           <div class="col-span-2">
             <label for="email" class="block font-semibold">E-mail</label>
-            <input
-              v-model="email"
+            <Field
               type="email"
               name="email"
               id="email"
               autocomplete="email"
+              :class="{ 'is-invalid': errors.email }"
               class="
+                form-control
                 mt-2
                 h-14
                 focus:ring-heliotrope focus:border-heliotrope
+                font-medium
                 block
                 w-full
                 shadow-sm
@@ -81,22 +85,24 @@
                 rounded
               "
             />
-            <span>{{ emailError }}</span>
+            <span class="invalid-feedback">{{ errors.email }}</span>
           </div>
           <div class="col-span-2">
             <label for="city" class="block font-semibold"
               >Город организатора</label
             >
-            <input
-              v-model="city"
+            <Field
               type="text"
               name="city"
               id="city"
               autocomplete="city"
+              :class="{ 'is-invalid': errors.city }"
               class="
+                form-control
                 mt-2
                 h-14
                 focus:ring-heliotrope focus:border-heliotrope
+                font-medium
                 block
                 w-full
                 shadow-sm
@@ -105,7 +111,7 @@
                 rounded
               "
             />
-            <span>{{ cityError }}</span>
+            <span class="invalid-feedback">{{ errors.city }}</span>
           </div>
         </div>
       </div>
@@ -114,15 +120,17 @@
           <h5 class="font-semibold text-lg text-left">Общая информация</h5>
           <div class="mt-6">
             <label for="event-name" class="block font-semibold">Название</label>
-            <input
-              v-model="eventName"
+            <Field
               type="text"
               name="eventName"
               id="event-name"
+              :class="{ 'is-invalid': errors.eventName }"
               class="
+                form-control
                 mt-2
                 h-14
                 focus:ring-heliotrope focus:border-heliotrope
+                font-medium
                 block
                 w-full
                 shadow-sm
@@ -131,20 +139,25 @@
                 rounded
               "
             />
+            <span class="invalid-feedback">{{ errors.eventName }}</span>
           </div>
         </div>
       </div>
+
       <the-file-uploader v-model="mainPhoto"></the-file-uploader>
+      <!--        <span class="invalid-feedback">{{ errors.mainPhoto }}</span>-->
       <div class="form-block mt-10">
         <div class="mt-6">
           <label for="event-name" class="block font-semibold"
             >Подробное описание</label
           >
-          <textarea
-            v-model="description"
+          <Field
+            as="textarea"
             name="description"
             id="description"
+            :class="{ 'is-invalid': errors.eventName }"
             class="
+              form-control
               resize-none
               mt-2
               h-48
@@ -156,10 +169,13 @@
               border-perfume
               rounded
             "
-          ></textarea>
+          ></Field>
+          <span class="invalid-feedback">{{ errors.description }}</span>
         </div>
       </div>
       <the-date-picker v-model="eventDates"></the-date-picker>
+
+      <!--        <span class="invalid-feedback">{{ errors.eventDates }}</span>-->
       <div class="form-block">
         <div>
           <div class="grid grid-cols-2 gap-4">
@@ -167,12 +183,14 @@
               <label for="event-rating" class="block font-semibold"
                 >Рейтинг мероприятия</label
               >
-              <select
+              <Field
+                as="select"
                 @click.once="fetchData"
-                v-model="eventRating"
                 name="eventRating"
                 id="event-rating"
+                :class="{ 'is-invalid': errors.eventRating }"
                 class="
+                  form-control
                   appearance-none
                   mt-2
                   h-14
@@ -193,18 +211,20 @@
                 >
                   {{ option.title }}
                 </option>
-              </select>
+              </Field>
+              <span class="invalid-feedback">{{ errors.eventRating }}</span>
             </div>
             <div class="mt-6 col-span-1">
               <label for="event-address" class="block font-semibold"
                 >Адрес мероприятия</label
               >
-              <input
-                v-model="eventAddress"
+              <Field
                 type="text"
                 name="eventAddress"
                 id="event-address"
+                :class="{ 'is-invalid': errors.eventAddress }"
                 class="
+                  form-control
                   mt-2
                   h-14
                   focus:ring-heliotrope focus:border-heliotrope
@@ -216,6 +236,7 @@
                   rounded
                 "
               />
+              <span class="invalid-feedback">{{ errors.eventAddress }}</span>
             </div>
           </div>
         </div>
@@ -232,12 +253,12 @@
         button-text="Далее"
       ></base-button>
     </div>
-  </form>
+  </Form>
 </template>
 
 <script>
-// import { ref } from "vue";
-import { useForm, useField } from "vee-validate";
+import { getUserData, setUserData } from "../data/state";
+import { Form, Field } from "vee-validate";
 import { apiUrl } from "../utils/api";
 import * as yup from "yup";
 import axios from "axios";
@@ -250,11 +271,14 @@ import BaseButton from "../UI/BaseButton";
 
 export default {
   name: "TheForm",
-  components: { BaseButton, TheFileUploader, TheDatePicker },
+  components: { BaseButton, TheFileUploader, TheDatePicker, Form, Field },
   setup() {
     // Define a validation schema
     const ratingOptions = ref([]);
+    const eventDates = ref([]);
+    const mainPhoto = ref([]);
     async function fetchData() {
+      console.log(mainPhoto.value);
       const response = await axios.get(`${apiUrl}`);
       if (response.data.code !== 200 || !response.data.code) {
         throw new Error("can't fetch data");
@@ -272,68 +296,35 @@ export default {
         .string()
         .required("Поле необходимо заполнить")
         .email("Введен неверный Email"),
-      city: yup
-        .string()
-        .required("Поле необходимо заполнить")
-        .min("Введен неверный Email"),
+      city: yup.string().required("Поле необходимо заполнить"),
       eventName: yup.string().required("Поле необходимо заполнить"),
       eventRating: yup.string().required("Поле необходимо заполнить"),
+      description: yup.string().required("Поле необходимо заполнить"),
       eventAddress: yup.string().required("Поле необходимо заполнить"),
     });
-    // Create a form context with the validation schema
-    useForm({
-      validationSchema: schema,
-    });
-    // No need to define rules for fields
-    const { value: arranger, errorMessage: arrangerError } =
-      useField("arranger");
-    const { value: email, errorMessage: emailError } = useField("email");
-    const { value: phoneNumber, errorMessage: phoneNumberError } =
-      useField("phoneNumber");
-    const { value: city, errorMessage: cityError } = useField("city");
-    const { value: eventName, errorMessage: eventNameError } =
-      useField("eventName");
-    const { value: mainPhoto, errorMessage: mainPhotoError } =
-      useField("mainPhoto");
-    const { value: description, errorMessage: descriptionError } =
-      useField("description");
-    const { value: eventDates, errorMessage: eventDatesError } =
-      useField("eventDates");
-    const { value: eventRating, errorMessage: eventRatingError } =
-      useField("eventRating");
-    const { value: eventAddress, errorMessage: eventAddressError } =
-      useField("eventAddress");
 
     const submitForm = (values) => {
       // display form values on success
-      alert("SUCCESS!! :-)\n\n" + JSON.stringify(values, null, 4));
+      setUserData({
+        ...values,
+        eventDates: { ...eventDates.value },
+        mainPhoto: { ...mainPhoto.value },
+      });
+      const userData = getUserData;
+      console.log(JSON.stringify(userData.value));
+      // alert("SUCCESS!! :-)\n\n" + JSON.stringify(values, null, 4));
     };
-
+    // const { value: eventDates } = useField("eventDates");
+    // const { value: mainPhoto } = useField("mainPhoto");
     return {
-      arranger,
-      arrangerError,
-      email,
-      emailError,
-      phoneNumber,
-      phoneNumberError,
-      city,
-      cityError,
-      eventName,
-      eventNameError,
-      mainPhoto,
-      mainPhotoError,
-      description,
-      descriptionError,
       eventDates,
-      eventDatesError,
-      eventRating,
-      eventRatingError,
-      eventAddress,
-      eventAddressError,
+      mainPhoto,
+      schema,
       ratingOptions,
       fetchData,
       formReset,
       submitForm,
+      setUserData,
     };
   },
 };
