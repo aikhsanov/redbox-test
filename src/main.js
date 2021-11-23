@@ -10,8 +10,12 @@ import App from "./App.vue";
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: "/", component: TheForm },
-    { path: "/preview", component: Preview },
+    { path: "/", component: TheForm, meta: { transition: "slide-right" } },
+    {
+      path: "/preview",
+      component: Preview,
+      meta: { transition: "slide-left" },
+    },
   ],
 });
 createApp(App).use(router).use(Maska).mount("#app");

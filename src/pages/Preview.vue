@@ -252,7 +252,7 @@ export default {
   components: { BaseInfo, BaseAlert, BaseButton },
   setup() {
     const eventData = ref(getUserData.value);
-    const createdImg = ref(eventData.value.mainPhoto?.[0].image);
+    const createdImg = ref(eventData.value.mainPhoto?.[0]?.image ?? null);
     const onModeration = ref(false);
     const router = useRouter();
 
