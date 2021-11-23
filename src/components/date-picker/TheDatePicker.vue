@@ -1,15 +1,17 @@
 <template>
-  <div
-    v-for="(date, i) in dates"
-    :key="date.index"
-    class="px-8 py-8 mt-5 mb-5 bg-selago relative"
-  >
-    <dates-form v-model="dates[i]" class=""></dates-form>
-    <remove-button
-      :data-index="date.index"
-      @click="removeDate($event)"
-    ></remove-button>
-  </div>
+  <transition-group tag="div" name="date-list" mode="out-in">
+    <div
+      v-for="(date, i) in dates"
+      :key="date.index"
+      class="px-8 py-8 mt-5 mb-5 bg-selago relative"
+    >
+      <dates-form v-model="dates[i]" class=""></dates-form>
+      <remove-button
+        :data-index="date.index"
+        @click="removeDate($event)"
+      ></remove-button>
+    </div>
+  </transition-group>
   <div class="mt-10">
     <dates-form v-model="dateObj"></dates-form>
     <base-button
@@ -77,4 +79,31 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.date-list-enter-from {
+  opacity: 0;
+  transform: translateY(-30%);
+}
+.date-list-enter-active {
+  transition: all 0.5s ease-in-out;
+}
+.date-list-enter-to {
+  opacity: 1;
+  transform: translateY(0%);
+}
+.date-list-leave-from {
+  opacity: 1;
+  transform: translateY(0%);
+}
+.date-list-leave-active {
+  transition: all 0.5s ease-in-out;
+  position: absolute;
+}
+.date-list-leave-to {
+  opacity: 0;
+  transform: translateY(300%);
+}
+.date-list-move {
+  transition: transform 0.3s ease;
+}
+</style>
