@@ -1,15 +1,6 @@
 <template>
-  <div class="" v-if="!Object.keys(eventData).length">
-    <h3 class="text-4xl font-bold text-center mt-24">
-      Пожалуйста, сначала заполните
-      <router-link class="underline" to="/">форму</router-link>
-    </h3>
-  </div>
-  <div class="" v-else-if="onModeration">
-    <h3 class="text-4xl font-bold text-center mt-24">
-      Ваша заявка отправлена на модерацию!
-    </h3>
-  </div>
+  <preview-erro-msg v-if="!Object.keys(eventData).length"></preview-erro-msg>
+  <success-msg v-else-if="onModeration"></success-msg>
   <div class="" v-else>
     <base-alert class="xl:text-lg lg:text-base text-sm text-left font-semibold">
       Проверьте ваше мероприятие на наличие ошибок, если все в порядке -
@@ -246,10 +237,12 @@ import { ru } from "date-fns/locale";
 import parseISO from "date-fns/parseISO";
 import { format } from "date-fns";
 import { useRouter } from "vue-router";
+import PreviewErroMsg from "../components/PreviewErroMsg";
+import SuccessMsg from "../components/SuccessMsg";
 
 export default {
   name: "Preview",
-  components: { BaseInfo, BaseAlert, BaseButton },
+  components: { SuccessMsg, PreviewErroMsg, BaseInfo, BaseAlert, BaseButton },
   setup() {
     const eventData = ref(getUserData.value);
     const createdImg = ref(eventData.value.mainPhoto?.[0]?.image ?? null);

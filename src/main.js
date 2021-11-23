@@ -5,6 +5,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import TheForm from "./components/TheForm";
 import Preview from "./pages/Preview";
+import ErrorPage from "./pages/ErrorPage";
 import App from "./App.vue";
 
 const router = createRouter({
@@ -16,6 +17,7 @@ const router = createRouter({
       component: Preview,
       meta: { transition: "slide-left" },
     },
+    { path: "/:addressName(.*)", component: ErrorPage },
   ],
 });
 createApp(App).use(router).use(Maska).mount("#app");
