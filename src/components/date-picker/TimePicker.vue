@@ -59,13 +59,9 @@ export default {
   props: ["timePickerName", "timePickerId", "modelValue"],
   emit: ["update:modelValue"],
   components: { VueTimepicker },
-  // inject:[ 'disabled', 'hourValue', 'minutesValue']
   setup(props, { emit }) {
-    // console.log(props);
     // const pickedTime = toRef(props, "modelValue");
     function updatePickedTime(time) {
-      console.log(time);
-      console.log("updated time");
       emit("update:modelValue", time);
     }
     return {

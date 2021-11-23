@@ -63,7 +63,6 @@ export default {
   setup(props, { emit }) {
     const lowerLimit = ref(new Date());
     function updateValue(date) {
-      console.log("updated");
       emit("update:modelValue", date);
     }
     return {

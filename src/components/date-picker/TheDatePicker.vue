@@ -43,7 +43,6 @@ export default {
     const newDates = ref([]);
     function addDate() {
       if (dates.value.length >= 3) {
-        console.log("нет свободных слотов для дат");
         return;
       }
       const dateToPush = { ...dateObj.value };

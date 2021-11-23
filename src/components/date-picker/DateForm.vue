@@ -52,15 +52,7 @@ export default {
   emits: ["update:modelValue"],
   components: { DateInput, TimePicker },
   setup(props, { emit }) {
-    console.log(props);
     const fullDate = toRef(props, "modelValue");
-    console.log(fullDate);
-    // const fullDate = ref({
-    //     dateStartPicker: null,
-    //     dateEndPicker: null,
-    //     timeStart:'',
-    //     timeEnd:'',
-    // });
 
     function onUpdate() {
       emit("update:modelValue", fullDate.value);

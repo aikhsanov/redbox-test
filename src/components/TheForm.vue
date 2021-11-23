@@ -282,7 +282,6 @@ export default {
     const eventDates = ref([]);
     const mainPhoto = ref([]);
     async function fetchData() {
-      console.log(mainPhoto.value);
       const response = await axios.get(`${apiUrl}`);
       if (response.data.code !== 200 || !response.data.code) {
         throw new Error("can't fetch data");

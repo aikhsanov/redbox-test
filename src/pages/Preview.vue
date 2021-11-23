@@ -257,7 +257,6 @@ export default {
       if (!startDate || !endDate) {
         return;
       }
-      console.log();
       startDate = format(parseISO(startDate), "dd MMM yyyy(EEEEEE)", {
         locale: ru,
       });
